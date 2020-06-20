@@ -1,0 +1,3 @@
+RewriteEngine on
+RewriteRule ^$ /tutoslim/public/ [L]
+RewriteRule (.*) /tutoslim/public/$1 [L]
