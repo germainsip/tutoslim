@@ -1,8 +1,8 @@
 <?php
 //TODO: il faut que je traduise tout ça :)
 //Error reporting
-error_reporting(0);
-ini_set('display_error', '0');
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
 
 //Timezone
 date_default_timezone_set('Europe/Berlin');
@@ -21,7 +21,7 @@ $settings['db'] = [
     'host' => 'localhost',
     'username' => 'root',
     'database' => 'tutoslim',
-    'password' => 'Grm1',
+    'password' => '',
     'charset' => 'utf8mb4',
     'collation' => 'utf8mb4_unicode_ci',
     'flags' => [
@@ -31,8 +31,11 @@ $settings['db'] = [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         //Emulate prepared statements
         PDO::ATTR_EMULATE_PREPARES => true,
-
-    ]
+        // Set default fetch mode to array
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        // set character set
+        PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci'
+    ],
 ];
 
 
@@ -40,7 +43,7 @@ $settings['db'] = [
 $settings['error'] = [
 
     // Should be set to false in prod
-    'display_errors_details' => true,
+    'display_error_details' => true,
 
     // Parameter is passed to the default ErrorHandler
     // View in rendered output by enabling the "displayErrorDetails" settings.
@@ -49,6 +52,7 @@ $settings['error'] = [
 
     // Display error details in error log
     'log_error_details' => true,
+
 ];
 
 return $settings;

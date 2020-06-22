@@ -1,16 +1,12 @@
 <?php
 
-
 namespace App\Domaine\User\Service;
 
-use App\Domain\User\Repository\UserCreatorRepository;
+use App\Domaine\User\Repository\UserCreatorRepository;
 use App\Exception\ValidationException;
 
-
 /**
- * Class UserCreator
- * Service
- * @package App\Domaine\User\Service
+ * Service.
  */
 final class UserCreator
 {
@@ -20,16 +16,24 @@ final class UserCreator
     private $repository;
 
     /**
-     * Le constructeur
+     * The constructor.
      *
+     * @param UserCreatorRepository $repository The repository
      */
     public function __construct(UserCreatorRepository $repository)
     {
         $this->repository = $repository;
-
     }
 
-    public function createUser(array $data): int {
+    /**
+     * Create a new user.
+     *
+     * @param array $data The form data
+     *
+     * @return int The new user ID
+     */
+    public function createUser(array $data): int
+    {
         // Input validation
         $this->validateNewUser($data);
 
@@ -42,23 +46,33 @@ final class UserCreator
         return $userId;
     }
 
+    /**
+     * Input validation.
+     *
+     * @param array $data The form data
+     *
+     * @throws ValidationException
+     *
+     * @return void
+     */
     private function validateNewUser(array $data): void
     {
-        $errors =[];
+        $errors = [];
 
-        if (empty($data['username'])){
+        // Here you can also use your preferred validation library
+
+        if (empty($data['username'])) {
             $errors['username'] = 'Input required';
         }
 
-        if (empty($data['email'])){
+        if (empty($data['email'])) {
             $errors['email'] = 'Input required';
-
-        } elseif (filter_var($data['email'],FILTER_VALIDATE_EMAIL) === false){
-            $errors['email'] = 'Invalid email adress';
+        } elseif (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
+            $errors['email'] = 'Invalid email address';
         }
 
-        if($errors) {
-            throw new ValidationException('Please check your input',$errors);
+        if ($errors) {
+            throw new ValidationException('Please check your input', $errors);
         }
     }
 }
